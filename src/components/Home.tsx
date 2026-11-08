@@ -35,7 +35,7 @@ export function Home({ progress, onStudy, onSpeak }: { progress: Progress; onStu
                   <span>{todo > 0 ? <><b className="text-text">{todo}</b> to study</> : <>Next review {whenNext(s.next)}</>}</span>
                 </div>
               </div>
-              <button onClick={() => onStudy(deck.id)} className="btn mt-5 h-12 bg-accent px-6 text-lg text-accent-fg hover:bg-accent/90">
+              <button onClick={() => onStudy(deck.id)} className="btn-outline mt-5 h-11 px-6">
                 {todo > 0 ? 'Study' : 'Practice'}
               </button>
             </section>
@@ -47,7 +47,6 @@ export function Home({ progress, onStudy, onSpeak }: { progress: Progress; onStu
         <p>Pass with 80%.</p>
         <p>
           Source: <a className="focus-ring rounded underline hover:text-text" href="https://dps.sd.gov/driver-licensing/commercial-drivers-license/cdl-manual" target="_blank" rel="noreferrer">2025 SD CDL Manual</a>.
-          {' '}Trust it over any card.
         </p>
       </footer>
     </main>

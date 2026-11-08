@@ -105,8 +105,8 @@ export function Study({ deck, progress, onProgress, settings, speak, onExit }: P
         <p className="mt-3 text-xl">First try: <b>{firstTry} of {uniqueCount}</b></p>
         {missedIds.size > 0 && <p className="mt-1 text-xl text-muted">Missed cards come back first.</p>}
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <button onClick={restart} className="btn h-12 bg-accent px-6 text-lg text-accent-fg hover:bg-accent/90">Study more</button>
-          <button onClick={onExit} className="btn h-12 bg-surface-2 px-6 text-lg hover:bg-border">Back</button>
+          <button onClick={restart} className="btn-outline h-11 px-6">Study more</button>
+          <button onClick={onExit} className="btn-ghost h-11 px-6">Back</button>
         </div>
       </main>
     )
@@ -157,11 +157,11 @@ export function Study({ deck, progress, onProgress, settings, speak, onExit }: P
             </button>
           ) : (
             <div className="grid grid-cols-2 gap-3">
-              <button onClick={() => answer(false)} className="btn h-14 flex-col gap-1 border-2 border-bad bg-bad-soft text-lg text-bad hover:bg-bad/20 sm:h-16">
+              <button onClick={() => answer(false)} className="btn h-14 flex-col gap-1 border border-bad/40 text-lg text-bad hover:bg-bad-soft sm:h-16">
                 <span className="flex items-center gap-2"><CrossIcon /> Missed it</span>
                 <kbd className="kbd">←</kbd>
               </button>
-              <button ref={gotItRef} onClick={() => answer(true)} className="btn h-14 flex-col gap-1 border-2 border-good bg-good-soft text-lg text-good hover:bg-good/20 sm:h-16">
+              <button ref={gotItRef} onClick={() => answer(true)} className="btn h-14 flex-col gap-1 border border-good/40 text-lg text-good hover:bg-good-soft sm:h-16">
                 <span className="flex items-center gap-2"><CheckIcon /> Got it</span>
                 <kbd className="kbd">→</kbd>
               </button>

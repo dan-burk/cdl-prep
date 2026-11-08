@@ -69,17 +69,14 @@ export default function App() {
       if ((err as { code?: string }).code !== 'auth/popup-closed-by-user') setLoginError("Couldn't sign in. Try again.")
     }
   }
-  const account = firebaseReady
-    ? {
-        user: user && { name: user.displayName || user.email || 'Account', photoURL: user.photoURL },
-        onLogin: () => { setLoginError(null); setShowLogin(true) },
-        onLogout: () => { signOutUser() },
-      }
-    : undefined
+  const openLogin = () => {
+    setLoginError(null)
+    setShowLogin(true)
+  }
 
   return (
     <div className="flex min-h-[100dvh] flex-col">
-      <TopBar title={deck ? deck.title : 'CDL Prep'} onBack={deck ? exit : undefined} onSettings={() => setShowSettings(true)} account={account} />
+      <TopBar title={deck ? deck.title : 'CDL Prep'} onBack={deck ? exit : undefined} onSettings={() => setShowSettings(true)} onLogin={firebaseReady && !user ? openLogin : undefined} />
       {deck
         ? <Study key={deck.id} deck={deck} progress={progress} onProgress={setProgress} settings={settings} speak={speak} onExit={exit} />
         : <Home progress={progress} onStudy={setDeckId} onSpeak={speak} />}
@@ -90,6 +87,7 @@ export default function App() {
           voices={voices}
           speak={speak}
           onReset={() => setProgress({})}
+          onLogout={user ? () => { setShowSettings(false); signOutUser() } : undefined}
           onClose={() => setShowSettings(false)}
         />
       )}

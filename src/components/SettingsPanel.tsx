@@ -22,9 +22,10 @@ interface Props {
   speak: (text: string) => void
   onReset: () => void
   onClose: () => void
+  onLogout?: () => void
 }
 
-export function SettingsPanel({ settings, onChange, voices, speak, onReset, onClose }: Props) {
+export function SettingsPanel({ settings, onChange, voices, speak, onReset, onClose, onLogout }: Props) {
   const [confirmReset, setConfirmReset] = useState(false)
   const dialog = useRef<HTMLDivElement>(null)
   // Move focus into the dialog once, on open, so keyboard and screen reader users land in it
@@ -51,7 +52,7 @@ export function SettingsPanel({ settings, onChange, voices, speak, onReset, onCl
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-2xl font-bold">Settings</h2>
           <IconButton label="Close settings" onClick={onClose}>
-            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18" /></svg>
+            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18" /></svg>
           </IconButton>
         </div>
 
@@ -74,7 +75,7 @@ export function SettingsPanel({ settings, onChange, voices, speak, onReset, onCl
                     <option value="">Best available</option>
                     {voices.map(v => <option key={v.name} value={v.name}>{v.name}</option>)}
                   </select>
-                  <button onClick={() => speak('Check your mirrors every 5 to 8 seconds.')} className="btn min-h-11 bg-accent-soft text-accent hover:bg-accent/20">Test</button>
+                  <button onClick={() => speak('Check your mirrors every 5 to 8 seconds.')} className="btn-outline min-h-11">Test</button>
                 </div>
               </Row>
             </>
@@ -85,14 +86,20 @@ export function SettingsPanel({ settings, onChange, voices, speak, onReset, onCl
           <Row label="Progress">
             {confirmReset ? (
               <div className="flex gap-2">
-                <button onClick={() => { onReset(); setConfirmReset(false) }} className="btn min-h-11 flex-1 bg-bad text-white hover:bg-bad/90">Erase all</button>
-                <button onClick={() => setConfirmReset(false)} className="btn min-h-11 flex-1 bg-surface-2 hover:bg-border">Cancel</button>
+                <button onClick={() => { onReset(); setConfirmReset(false) }} className="btn min-h-11 flex-1 border border-bad/40 text-bad hover:bg-bad-soft">Erase all</button>
+                <button onClick={() => setConfirmReset(false)} className="btn-ghost min-h-11 flex-1">Cancel</button>
               </div>
             ) : (
-              <button onClick={() => setConfirmReset(true)} className="btn min-h-11 bg-surface-2 text-bad hover:bg-border">Start over</button>
+              <button onClick={() => setConfirmReset(true)} className="btn-ghost min-h-11 -ml-3 px-3 text-bad hover:text-bad">Start over</button>
             )}
           </Row>
         </div>
+
+        {onLogout && (
+          <div className="mt-6 flex justify-end border-t border-border pt-4">
+            <button onClick={onLogout} className="btn-ghost -mr-3 min-h-11 px-3 text-bad hover:text-bad">Log out</button>
+          </div>
+        )}
       </div>
     </div>
   )

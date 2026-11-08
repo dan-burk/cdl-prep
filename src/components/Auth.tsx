@@ -1,67 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-
-export interface Account {
-  user: { name: string; photoURL: string | null } | null
-  onLogin: () => void
-  onLogout: () => void
-}
-
-/** Top-bar login, laid out like dairytranslate's: a Login button, or the person's photo and name with a Logout menu */
-export function AuthButton({ account }: { account: Account }) {
-  const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!open) return
-    const close = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false)
-    document.addEventListener('mousedown', close)
-    return () => document.removeEventListener('mousedown', close)
-  }, [open])
-
-  const { user } = account
-  if (!user) {
-    return (
-      <button onClick={account.onLogin} className="btn min-h-11 bg-accent px-4 text-accent-fg hover:bg-accent/90">
-        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" />
-        </svg>
-        Login
-      </button>
-    )
-  }
-
-  return (
-    <div className="relative" ref={ref}>
-      <button
-        onClick={() => setOpen(o => !o)}
-        aria-expanded={open}
-        aria-label={`Account: ${user.name}`}
-        className="focus-ring flex min-h-11 items-center gap-2 rounded-lg px-2 transition-colors hover:bg-surface-2"
-      >
-        {user.photoURL
-          ? <img src={user.photoURL} alt="" referrerPolicy="no-referrer" className="h-7 w-7 rounded-full" />
-          : <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-soft font-semibold text-accent">{user.name[0]?.toUpperCase()}</span>}
-        <span className="hidden max-w-[10rem] truncate sm:inline">{user.name}</span>
-        <svg viewBox="0 0 24 24" className={`h-4 w-4 text-muted transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" aria-hidden>
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </button>
-      {open && (
-        <div className="absolute right-0 z-30 mt-2 w-44 overflow-hidden rounded-lg border border-border bg-surface shadow-card">
-          <button
-            onClick={() => { setOpen(false); account.onLogout() }}
-            className="flex min-h-11 w-full items-center gap-2 px-4 text-left hover:bg-surface-2"
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
-            </svg>
-            Logout
-          </button>
-        </div>
-      )}
-    </div>
-  )
-}
+import { useEffect } from 'react'
 
 /** Google-only version of dairytranslate's login modal */
 export function LoginModal({ onGoogle, onClose, error }: { onGoogle: () => void; onClose: () => void; error: string | null }) {
@@ -74,7 +11,7 @@ export function LoginModal({ onGoogle, onClose, error }: { onGoogle: () => void;
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <div role="dialog" aria-modal="true" aria-labelledby="login-title" onClick={e => e.stopPropagation()} className="w-full max-w-md rounded-lg bg-surface p-8 shadow-card">
-        <h2 id="login-title" className="mb-2 text-center text-2xl font-bold">Sign in to continue</h2>
+        <h2 id="login-title" className="mb-2 text-center text-2xl font-bold">Log in</h2>
         <p className="mb-6 text-center text-muted">Saves progress on every device.</p>
 
         {error && <p className="mb-4 rounded-lg border border-bad bg-bad-soft p-3 text-bad">{error}</p>}

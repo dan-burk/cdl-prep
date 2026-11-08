@@ -39,7 +39,7 @@ export function ProgressBar({ value, max, label }: { value: number; max: number;
   )
 }
 
-function Icon({ className = 'h-6 w-6', strokeWidth = 2, children }: { className?: string; strokeWidth?: number; children: ReactNode }) {
+function Icon({ className = 'h-6 w-6', strokeWidth = 1.75, children }: { className?: string; strokeWidth?: number; children: ReactNode }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       {children}
@@ -50,13 +50,13 @@ function Icon({ className = 'h-6 w-6', strokeWidth = 2, children }: { className?
 export const SpeakerIcon = ({ className }: { className?: string }) => (
   <Icon className={className}><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" /></Icon>
 )
-export const CheckIcon = () => <Icon strokeWidth={2.5}><path d="m5 12.5 4.5 4.5L19 7.5" /></Icon>
-export const CrossIcon = () => <Icon strokeWidth={2.5}><path d="M6 6l12 12M18 6 6 18" /></Icon>
+export const CheckIcon = () => <Icon className="h-5 w-5" strokeWidth={2}><path d="m5 12.5 4.5 4.5L19 7.5" /></Icon>
+export const CrossIcon = () => <Icon className="h-5 w-5" strokeWidth={2}><path d="M6 6l12 12M18 6 6 18" /></Icon>
 
 /** Same look and words everywhere, so he learns one "hear it" button */
 export function SpeakButton({ onClick, title = 'Read aloud', className = '' }: { onClick: () => void; title?: string; className?: string }) {
   return (
-    <button onClick={onClick} aria-label="Read aloud" title={title} className={`btn h-11 w-11 shrink-0 bg-accent-soft p-0 text-accent hover:bg-accent/20 ${className}`}>
+    <button onClick={onClick} aria-label="Read aloud" title={title} className={`btn h-11 w-11 shrink-0 p-0 text-accent hover:bg-accent-soft ${className}`}>
       <SpeakerIcon />
     </button>
   )
