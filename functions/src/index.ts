@@ -87,9 +87,9 @@ const DEBRIEF_SCHEMA = {
 type Debrief = { summary: string; misunderstandings: string[]; whatWorked: string[]; tryNext: string[]; strongTopics: string[]; weakTopics: string[] }
 
 const SYSTEM = `You review a voice tutoring session for someone studying for the South Dakota Class A CDL permit tests. He has dyslexia.
-Write for the next tutor session, which will read this before starting. Be specific and brief: short plain sentences, at most 4 items per list.
+Write private notes for the next voice tutor, who reads them before talking to him. Be specific and brief: short plain sentences, at most 4 items per list. Only include what the transcript shows.
 summary: 1-2 sentences. misunderstandings: what he got wrong or mixed up, and what he said. whatWorked: explanations or memory hooks that clicked.
-tryNext: what the next session should do. strongTopics / weakTopics: topic names in plain words (not section numbers).`
+tryNext: how to explain or what to stress. The app picks the questions and the test, so don't suggest those. strongTopics / weakTopics: topic names in plain words (not section numbers).`
 
 async function chat(key: string, messages: object[], responseFormat: object) {
   const res = await fetch('https://api.x.ai/v1/chat/completions', {

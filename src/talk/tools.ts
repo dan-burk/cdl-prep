@@ -16,7 +16,7 @@ export const TOOLS = [
   {
     type: 'function',
     name: 'next_card',
-    description: 'Get the next question to ask. Call this before every question.',
+    description: 'Get the next question and its answer. Call before every question and ask only what it returns. Pass his current topic and mode every time. Each call uses up a question, so ask it before calling again.',
     parameters: {
       type: 'object',
       properties: {
@@ -29,14 +29,14 @@ export const TOOLS = [
   {
     type: 'function',
     name: 'record_answer',
-    description: 'Save whether his answer was right. Call once per question, right after he answers.',
+    description: 'Save whether his answer was right. Call exactly once per question, after he answers. "I don\'t know" or skip counts: correct false.',
     parameters: {
       type: 'object',
       properties: {
-        card_id: { type: 'string', description: 'The card_id from next_card' },
+        card_id: { type: 'string', description: 'The card_id from the latest next_card' },
         correct: { type: 'boolean' },
         heard: { type: 'string', description: 'What he said, in a few words' },
-        note: { type: 'string', description: 'If wrong: a short note on what he mixed up' },
+        note: { type: 'string', description: 'If wrong: what he mixed up, e.g. "said 100 psi, mixed up cut-in and cut-out"' },
       },
       required: ['card_id', 'correct'],
     },
@@ -44,7 +44,7 @@ export const TOOLS = [
   {
     type: 'function',
     name: 'weak_spots',
-    description: 'The questions he misses most, with notes on what he said.',
+    description: 'The questions he misses most, with his past wrong answers. Only if he asks what he is weak on. Never quiz him from it.',
     parameters: { type: 'object', properties: {}, required: [] },
   },
 ]
