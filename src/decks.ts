@@ -6,7 +6,7 @@ import combination from './decks/combination.json'
 import pdfPages from './decks/pdf-pages.json'
 
 // The state site only serves the manual through a JavaScript page, so link a direct copy of the same 2025 PDF
-const MANUAL_PDF = 'https://tacinjurylaw.com/wp-content/uploads/2025/10/2025-cdl-manual-south-dakota.pdf'
+export const MANUAL_PDF = 'https://tacinjurylaw.com/wp-content/uploads/2025/10/2025-cdl-manual-south-dakota.pdf'
 
 export function manualLink(page: string) {
   const n = (pdfPages as Record<string, number>)[page]

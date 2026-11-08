@@ -4,8 +4,19 @@ service cloud.firestore {
     // Each person reads and writes only their own progress
     match /users/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
+
+      // Talk sessions: only the session function creates them (so each one counts toward the daily cap);
+      // the browser then saves the transcript as it goes. No create here, or fake sessions could buy free debriefs.
+      match /sessions/{id} {
+        allow read, update: if request.auth != null && request.auth.uid == uid;
+      }
+      // Talk summaries are written only by the debrief function (admin access skips these rules)
+      match /debriefs/{id} {
+        allow read: if request.auth != null && request.auth.uid == uid;
+        allow write: if false;
+      }
     }
-    // Daily talk minutes: written only by the session function (admin access skips these rules)
+    // Daily talk count: written only by the session function
     match /usage/{doc=**} {
       allow read, write: if false;
     }

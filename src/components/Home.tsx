@@ -1,7 +1,7 @@
-import { DECKS } from '../decks'
+import { DECKS, MANUAL_PDF } from '../decks'
 import { deckStats } from '../srs'
 import type { DeckId, Progress } from '../types'
-import { ProgressBar, SpeakButton } from './ui'
+import { MicIcon, ProgressBar } from './ui'
 
 const INTRO = 'Pick a Test to Study'
 
@@ -10,14 +10,15 @@ function whenNext(next: number) {
   return days <= 1 ? 'tomorrow' : `in ${days} days`
 }
 
-export function Home({ progress, onStudy, onSpeak }: { progress: Progress; onStudy: (id: DeckId) => void; onSpeak: (text: string) => void }) {
+export function Home({ progress, onStudy, onTalk }: { progress: Progress; onStudy: (id: DeckId) => void; onTalk?: () => void }) {
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
-      <div className="mb-6 flex items-center gap-3">
-        <h1 className="flex-1 text-2xl font-bold sm:text-3xl">{INTRO}</h1>
-        {/* Reads the choices too, so he can pick without reading */}
-        <SpeakButton onClick={() => onSpeak([INTRO, ...DECKS.map(d => d.title)].join('. '))} className="-mr-1" />
-      </div>
+      {/* Voice tutor first; hidden without Firebase, since it needs sign-in and the server */}
+      {onTalk && (
+        <button onClick={onTalk} className="btn-outline mb-8 h-12 w-full px-6 sm:w-auto"><MicIcon /> Speak with Customized AI Tutor!</button>
+      )}
+
+      <h1 className="mb-6 text-2xl font-bold sm:text-3xl">{INTRO}</h1>
 
       <div className="grid gap-4">
         {DECKS.map(deck => {
@@ -46,7 +47,7 @@ export function Home({ progress, onStudy, onSpeak }: { progress: Progress; onStu
       <footer className="mt-10 space-y-1 text-muted">
         <p>Real tests need 80% to pass.</p>
         <p>
-          Source: <a className="focus-ring rounded underline hover:text-text" href="https://dps.sd.gov/driver-licensing/commercial-drivers-license/cdl-manual" target="_blank" rel="noreferrer">2025 SD CDL Manual</a>.
+          Source: <a className="focus-ring rounded underline hover:text-text" href={MANUAL_PDF} target="_blank" rel="noreferrer">2025 SD CDL Manual</a>.
         </p>
       </footer>
     </main>

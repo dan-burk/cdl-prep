@@ -18,7 +18,8 @@ export function grade(progress: Progress, id: string, gotIt: boolean, now = Date
   const box = gotIt ? Math.min(s.box + 1, TOP_BOX) : 0
   return {
     ...progress,
-    [id]: { box, due: now + WAIT_DAYS[box] * DAY, seen: s.seen + 1, missed: s.missed + (gotIt ? 0 : 1) },
+    // Spread first so talk-mode notes survive a flashcard answer
+    [id]: { ...s, box, due: now + WAIT_DAYS[box] * DAY, seen: s.seen + 1, missed: s.missed + (gotIt ? 0 : 1) },
   }
 }
 

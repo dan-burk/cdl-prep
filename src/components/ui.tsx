@@ -50,6 +50,9 @@ function Icon({ className = 'h-6 w-6', strokeWidth = 1.75, children }: { classNa
 export const SpeakerIcon = ({ className }: { className?: string }) => (
   <Icon className={className}><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" /></Icon>
 )
+export const MicIcon = () => (
+  <Icon className="h-5 w-5"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></Icon>
+)
 export const CheckIcon = () => <Icon className="h-5 w-5" strokeWidth={2}><path d="m5 12.5 4.5 4.5L19 7.5" /></Icon>
 export const CrossIcon = () => <Icon className="h-5 w-5" strokeWidth={2}><path d="M6 6l12 12M18 6 6 18" /></Icon>
 

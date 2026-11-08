@@ -5,6 +5,8 @@ export interface Card {
   front: string
   back: string
   why?: string
+  /** From a manual "Test Your Knowledge" box, which says these questions may be on the test */
+  tyk?: boolean
 }
 
 export type DeckId = 'general' | 'air-brakes' | 'combination'
@@ -25,6 +27,8 @@ export interface CardState {
   due: number
   seen: number
   missed: number
+  /** Talk mode: what he said on his last few misses, so the tutor can see the pattern */
+  notes?: string[]
 }
 
 export type Progress = Record<string, CardState>

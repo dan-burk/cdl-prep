@@ -20,7 +20,8 @@
     "section": "6.1.1",
     "page": "6-1",
     "front": "What 2 things help stop rollovers?",
-    "back": "Keep cargo low. Go slow in turns."
+    "back": "Keep cargo low. Go slow in turns.",
+    "tyk": true
   },
   {
     "id": "cv-004",
@@ -59,7 +60,8 @@
     "page": "6-1",
     "front": "In a sudden turn with doubles, which trailer tips first?",
     "back": "The rear trailer.",
-    "why": "The whip is strongest at the tail."
+    "why": "The whip is strongest at the tail.",
+    "tyk": true
   },
   {
     "id": "cv-009",
@@ -90,7 +92,8 @@
     "page": "6-2",
     "front": "Which trailers can get stuck on raised rail crossings?",
     "back": "Low ones: lowboy, car carrier, moving van.",
-    "why": "Possum-belly livestock trailers too."
+    "why": "Possum-belly livestock trailers too.",
+    "tyk": true
   },
   {
     "id": "cv-013",
@@ -151,7 +154,8 @@
     "page": "6-3",
     "front": "Should you use the trailer hand brake to fix a skid?",
     "back": "No.",
-    "why": "Trailer brakes caused the skid."
+    "why": "Trailer brakes caused the skid.",
+    "tyk": true
   },
   {
     "id": "cv-021",
@@ -159,7 +163,8 @@
     "page": "6-3",
     "front": "What is offtracking?",
     "back": "Rear wheels take a tighter path than front wheels.",
-    "why": "It is also called cheating."
+    "why": "It is also called cheating.",
+    "tyk": true
   },
   {
     "id": "cv-022",
@@ -197,7 +202,8 @@
     "page": "6-3",
     "front": "If you must back on a curve, back to which side?",
     "back": "The driver's side.",
-    "why": "So you can see."
+    "why": "So you can see.",
+    "tyk": true
   },
   {
     "id": "cv-027",
@@ -212,7 +218,8 @@
     "page": "6-4",
     "front": "Why not use the trailer hand valve while driving?",
     "back": "It can make the trailer skid.",
-    "why": "The foot brake is safer. It brakes all wheels."
+    "why": "The foot brake is safer. It brakes all wheels.",
+    "tyk": true
   },
   {
     "id": "cv-029",
@@ -256,14 +263,16 @@
     "section": "6.2.3",
     "page": "6-5",
     "front": "What happens when you push in the trailer air supply knob?",
-    "back": "Air goes to the trailer."
+    "back": "Air goes to the trailer.",
+    "tyk": true
   },
   {
     "id": "cv-035",
     "section": "6.2.3",
     "page": "6-5",
     "front": "What happens when you pull out the trailer air supply knob?",
-    "back": "Air shuts off. Trailer emergency brakes come on."
+    "back": "Air shuts off. Trailer emergency brakes come on.",
+    "tyk": true
   },
   {
     "id": "cv-036",
@@ -277,7 +286,9 @@
     "section": "6.2.4",
     "page": "6-5",
     "front": "What controls air in the service line?",
-    "back": "The foot brake or trailer hand valve."
+    "back": "The foot brake or trailer hand valve.",
+    "why": "It carries brake air to the trailer brakes.",
+    "tyk": true
   },
   {
     "id": "cv-038",
@@ -291,7 +302,8 @@
     "section": "6.2.4",
     "page": "6-5",
     "front": "What are the 2 jobs of the emergency line?",
-    "back": "Fills trailer air tanks. Controls emergency brakes."
+    "back": "Fills trailer air tanks. Controls emergency brakes.",
+    "tyk": true
   },
   {
     "id": "cv-040",
@@ -366,14 +378,16 @@
     "page": "6-6",
     "front": "Which shut-off valves should be closed?",
     "back": "Only the ones at the back of the last trailer.",
-    "why": "All others stay open."
+    "why": "All others stay open.",
+    "tyk": true
   },
   {
     "id": "cv-050",
     "section": "6.2.8",
     "page": "6-6",
     "front": "Why chock a trailer with no spring brakes when parked?",
-    "back": "Tank air leaks away. Then it has no brakes."
+    "back": "Tank air leaks away. Then it has no brakes.",
+    "tyk": true
   },
   {
     "id": "cv-051",
@@ -387,21 +401,8 @@
     "section": "6.3.1",
     "page": "6-7",
     "front": "Where is the trailer ABS warning lamp?",
-    "back": "Left side. It is yellow."
-  },
-  {
-    "id": "cv-053",
-    "section": "6.3.2",
-    "page": "6-7",
-    "front": "How should you brake with ABS?",
-    "back": "The same way you always do."
-  },
-  {
-    "id": "cv-054",
-    "section": "6.3.2",
-    "page": "6-7",
-    "front": "Your ABS fails. Do you still have brakes?",
-    "back": "Yes, normal brakes. Get ABS fixed soon."
+    "back": "Left side. It is yellow.",
+    "tyk": true
   },
   {
     "id": "cv-055",
@@ -487,7 +488,8 @@
     "section": "6.4.1",
     "page": "6-8",
     "front": "How much gap between upper and lower fifth wheel?",
-    "back": "None."
+    "back": "None.",
+    "tyk": true
   },
   {
     "id": "cv-067",
@@ -510,7 +512,8 @@
     "page": "6-9",
     "front": "How far do you raise the landing gear to drive?",
     "back": "All the way up.",
-    "why": "Gear part way up can catch on tracks."
+    "why": "Not just off the ground. Part way up can catch on tracks.",
+    "tyk": true
   },
   {
     "id": "cv-070",
@@ -569,7 +572,8 @@
     "section": "6.5.2",
     "page": "6-13",
     "front": "How do you check that air reaches all trailers?",
-    "back": "Open rear shut-off valves on last trailer. Listen for air."
+    "back": "Open rear shut-off valves on last trailer. Listen for air.",
+    "tyk": true
   },
   {
     "id": "cv-078",
@@ -577,20 +581,50 @@
     "page": "6-13",
     "front": "How do you test the tractor protection valve?",
     "back": "Engine off. Pump the brake pedal. Knob should pop out.",
-    "why": "It should pop out at 20 to 45 psi."
+    "why": "It should pop out at 20 to 45 psi.",
+    "tyk": true
   },
   {
     "id": "cv-079",
     "section": "6.5.2",
     "page": "6-14",
     "front": "How do you test trailer emergency brakes?",
-    "back": "Pull the air supply knob. Tug gently. Trailer should hold."
+    "back": "Pull the air supply knob. Tug gently. Trailer should hold.",
+    "tyk": true
   },
   {
     "id": "cv-080",
     "section": "6.5.2",
     "page": "6-14",
     "front": "How do you test trailer service brakes?",
-    "back": "Roll slowly. Apply the hand valve. Feel brakes grab."
+    "back": "Roll slowly. Apply the hand valve. Feel brakes grab.",
+    "tyk": true
+  },
+  {
+    "id": "cv-081",
+    "section": "6.2.7",
+    "page": "6-6",
+    "front": "Where are shut-off valves found?",
+    "back": "At the back of trailers that tow other trailers.",
+    "why": "They are in the service and emergency lines.",
+    "tyk": true
+  },
+  {
+    "id": "cv-082",
+    "section": "6.4.1",
+    "page": "6-8",
+    "front": "Trailer is too high when coupling. What can happen?",
+    "back": "It may not couple right.",
+    "why": "Too low, and the tractor can hit the trailer nose.",
+    "tyk": true
+  },
+  {
+    "id": "cv-083",
+    "section": "6.4.1",
+    "page": "6-8",
+    "front": "Should you look into the back of the fifth wheel?",
+    "back": "Yes. Check the jaws closed on the kingpin.",
+    "why": "They must close on the shank, not the head.",
+    "tyk": true
   }
 ]

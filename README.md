@@ -4,21 +4,49 @@ Read-aloud flashcards for the South Dakota Class A CDL permit tests: General Kno
 
 **Live:** https://danielburkhalter.dev/CDL-Prep/
 
-- `src/decks/*.json`: the cards. Each one is `{id, section, page, front, back, why?}`, written in our own words from the 2025 SD CDL Manual and citing its page.
+- `src/decks/*.json`: the cards. Each one is `{id, section, page, front, back, why?, tyk?}` (`tyk`: from a manual "Test Your Knowledge" box), written in our own words from the 2025 SD CDL Manual and citing its page.
 - `src/srs.ts`: spaced repetition (Leitner boxes).
 - `src/speech.ts`: read-aloud through the browser's built-in voices. Free, no API keys.
+- `src/talk/`, `src/components/Talk.tsx`: Talk mode (Grok voice tutor).
+- `functions/`: Firebase functions `session` (caps, xAI pass) and `debrief` (session summary via `grok-4.3`).
 - `CDL-PLAN.md`: the plan and to-do list.
 - `sources/`: local copies of the manual and transcripts. Not committed, because they're copyrighted.
 
-## Development
+## Talk mode limits
+
+| Rule | Value |
+|---|---|
+| Session length | 10 min (1-minute warning at 9) |
+| Sessions per person per day | 6 (60 min) |
+| Sessions per day, everyone | 12 |
+| Day resets | Midnight Central |
+| xAI pass | Expires 5 min after it's issued; only needed to connect |
+| Who can talk | Anyone logged in with Google |
+| Callers allowed | `https://danielburkhalter.dev`, `http://localhost:3000` |
+| Spending ceiling | Prepaid xAI credit, auto top-up off |
+
+Limits live at the top of `functions/src/index.ts`.
+
+## Run it
+
+Two separate `npm` projects: the website (repo root) and the server functions (`functions/`). Run everything from the repo root.
 
 ```sh
+# Website
 npm install
-npm run dev     # http://localhost:3000
-npm run build   # type check + production build
+npm run dev                          # http://localhost:3000 (needs .env.local, see .env.example)
+npm run build                        # type check + production build
+
+# Functions (only when functions/ changes)
+npm --prefix functions install
+npm --prefix functions run build
+firebase use                         # must print cdl-prep-9fc49
+firebase deploy --only functions
 ```
 
-Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`.
+- Website: pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`.
+- Firestore rules: paste `firestore.rules` into Firebase console → Firestore → Rules → Publish.
+- Secret: `XAI_API_KEY` (Google Secret Manager). Never in the repo or `.env`.
 
 ## Firebase Commands
 
