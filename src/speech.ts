@@ -15,10 +15,11 @@ export function useVoices() {
   return voices
 }
 
-/** Prefer the natural-sounding voices that Edge, Chrome and Safari ship */
+/** Google US English first (Chrome only), then the natural-sounding voices Edge and Safari ship */
 function bestVoice(voices: SpeechSynthesisVoice[]) {
   const us = voices.filter(v => v.lang === 'en-US')
-  return us.find(v => /natural/i.test(v.name))
+  return us.find(v => v.name === 'Google US English')
+    ?? us.find(v => /natural/i.test(v.name))
     ?? us.find(v => /google|samantha|aria|jenny/i.test(v.name))
     ?? us[0] ?? voices[0]
 }

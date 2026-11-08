@@ -28,10 +28,10 @@ export function Home({ progress, onStudy, onSpeak }: { progress: Progress; onStu
               <h2 className="text-xl font-bold">{deck.title}</h2>
               <p className="text-muted">{deck.test}</p>
               <div className="mt-4">
-                <ProgressBar value={s.learned} max={s.total} label={`${deck.title} cards learned`} />
+                <ProgressBar value={s.learned} max={s.total} label={`${deck.title} questions covered`} />
                 {/* Two numbers at most: more than that turns into a blur */}
                 <div className="mt-2 flex flex-wrap justify-between gap-x-4 text-muted">
-                  <span><b className="text-text">{s.learned}</b> of {s.total} learned</span>
+                  <span><b className="text-text">{s.learned}</b> of {s.total} questions covered</span>
                   <span>{todo > 0 ? <><b className="text-text">{todo}</b> to study</> : <>Next review {whenNext(s.next)}</>}</span>
                 </div>
               </div>
@@ -44,7 +44,7 @@ export function Home({ progress, onStudy, onSpeak }: { progress: Progress; onStu
       </div>
 
       <footer className="mt-10 space-y-1 text-muted">
-        <p>Pass with 80%.</p>
+        <p>Real tests need 80% to pass.</p>
         <p>
           Source: <a className="focus-ring rounded underline hover:text-text" href="https://dps.sd.gov/driver-licensing/commercial-drivers-license/cdl-manual" target="_blank" rel="noreferrer">2025 SD CDL Manual</a>.
         </p>

@@ -12,7 +12,7 @@ export function LoginModal({ onGoogle, onClose, error }: { onGoogle: () => void;
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <div role="dialog" aria-modal="true" aria-labelledby="login-title" onClick={e => e.stopPropagation()} className="w-full max-w-md rounded-lg bg-surface p-8 shadow-card">
         <h2 id="login-title" className="mb-2 text-center text-2xl font-bold">Log in</h2>
-        <p className="mb-6 text-center text-muted">Saves progress on every device.</p>
+        <p className="mb-6 text-center text-muted"></p>
 
         {error && <p className="mb-4 rounded-lg border border-bad bg-bad-soft p-3 text-bad">{error}</p>}
 
