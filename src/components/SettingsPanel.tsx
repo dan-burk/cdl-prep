@@ -96,8 +96,8 @@ export function SettingsPanel({ settings, onChange, voices, speak, onReset, onCl
         </div>
 
         {onLogout && (
-          <div className="mt-6 flex justify-end border-t border-border pt-4">
-            <button onClick={onLogout} className="btn-ghost -mr-3 min-h-11 px-3 text-bad hover:text-bad">Log out</button>
+          <div className="mt-6 flex justify-center border-t border-border pt-4">
+            <button onClick={onLogout} className="btn min-h-11 border border-bad/40 text-bad hover:bg-bad-soft">Log out</button>
           </div>
         )}
       </div>

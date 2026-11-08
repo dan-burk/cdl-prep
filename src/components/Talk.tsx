@@ -50,6 +50,13 @@ export function Talk({ uid, progress, onProgress }: Props) {
     let stopMic: (() => void) | undefined
     let timer: number | undefined
     let saver: number | undefined
+    // Phones pause the mic and audio once the screen locks, so keep it on for the whole talk
+    let wake: WakeLockSentinel | undefined
+    const keepAwake = () => navigator.wakeLock?.request('screen').then(l => { wake = l }).catch(() => {})
+    // The lock drops whenever the tab is hidden; take it again on return
+    const onVisible = () => { if (document.visibilityState === 'visible' && !ended) keepAwake() }
+    keepAwake()
+    document.addEventListener('visibilitychange', onVisible)
 
     const player = new Player(ctx, playing => !ended && setPhase(playing ? 'speaking' : 'listening'))
     const tutor = new VoiceTutor({
@@ -86,6 +93,8 @@ export function Talk({ uid, progress, onProgress }: Props) {
       ended = true
       clearInterval(timer)
       clearInterval(saver)
+      document.removeEventListener('visibilitychange', onVisible)
+      wake?.release().catch(() => {})
       stopMic?.()
       player.flush()
       tutor.close()
