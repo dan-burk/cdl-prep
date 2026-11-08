@@ -23,7 +23,7 @@ function errorText(err: unknown) {
   if (e.name === 'NotAllowedError' || e.name === 'SecurityError') return 'Mic blocked. Allow it in your browser settings.'
   if (e.name === 'NotFoundError') return 'No mic found.'
   if (e.code === 'functions/resource-exhausted') return 'Daily limit reached. Try again tomorrow.'
-  return "Couldn't connect. Try again."
+  return "Couldn't connect. Tutor may be down. Flashcards still work."
 }
 
 const clock = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
@@ -73,7 +73,7 @@ export function Talk({ uid, progress, onProgress }: Props) {
       },
       onBargeIn: () => player.flush(),
       onLine: line => transcript.push(line),
-      onClose: unexpected => finish(unexpected ? "Couldn't connect. Try again." : ''),
+      onClose: unexpected => finish(unexpected ? "Couldn't connect. Tutor may be down. Flashcards still work." : ''),
       onTool: (name, args) => {
         if (name === 'next_card') {
           const card = nextCard(progressRef.current, recent, typeof args.topic === 'string' ? args.topic : undefined, typeof args.mode === 'string' ? args.mode : undefined)
