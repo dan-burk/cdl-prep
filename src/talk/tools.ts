@@ -1,11 +1,13 @@
 import { DECKS } from '../decks'
 import type { TopicStat } from '../firebase'
-import { buildSession, grade, RETRY_GAP } from '../srs'
+import { buildSession, grade } from '../srs'
 import type { Card, DeckId, Progress } from '../types'
 
 const ALL: (Card & { deck: string; deckId: DeckId })[] = DECKS.flatMap(d => d.cards.map(c => ({ ...c, deck: d.title, deckId: d.id })))
 const byId = new Map(ALL.map(c => [c.id, c]))
 const NOTES_KEPT = 3
+/** Questions asked before a missed one comes back. Longer than the flashcards' 3, since talk is slower and he needs a real gap. */
+const TALK_RETRY_GAP = 7
 
 const topic = (c: Card & { deck: string }) => (c.section ? `${c.deck}, section ${c.section}` : c.deck)
 
@@ -18,7 +20,8 @@ export const TOOLS = [
     parameters: {
       type: 'object',
       properties: {
-        topic: { type: 'string', enum: ['general', 'air-brakes', 'combination', 'any'], description: 'The test he chose to study' },
+        topic: { type: 'string', enum: ['general', 'air-brakes', 'combination', 'any'], description: 'The test to study' },
+        mode: { type: 'string', enum: ['mix', 'review', 'new'], description: 'mix (default): alternate questions he has had before with new ones. review: only ones he has had before. new: only ones he has never had.' },
       },
       required: [],
     },
@@ -47,20 +50,25 @@ export const TOOLS = [
 ]
 
 /**
- * Same order the flashcards use (due first, then new), across all three tests.
- * Skips the last few asked so a miss comes back a little later, not right away.
+ * Picks from three lists: due reviews (asked before, oldest due first), new ones (manual order),
+ * and everything asked before, weakest first (when nothing is due).
+ * Mix alternates review and new so a talk covers both. Skips the last 7 asked, so a miss
+ * comes back after several other questions, not right away.
  */
-export function nextCard(progress: Progress, recent: string[], deck?: string) {
-  const avoid = new Set(recent.slice(-RETRY_GAP))
-  const pool = ALL.filter(c => !deck || deck === 'any' || c.deckId === deck)
-  const queue = buildSession(pool, progress).filter(id => !avoid.has(id))
-  // Everything caught up: practice the weakest
-  const id = queue[0] ?? [...pool]
-    .filter(c => !avoid.has(c.id))
-    .sort((a, b) => (progress[a.id]?.box ?? 0) - (progress[b.id]?.box ?? 0) || (progress[b.id]?.missed ?? 0) - (progress[a.id]?.missed ?? 0))[0]?.id
-  const c = id ? byId.get(id) : undefined
-  if (!c) return { error: 'No questions left' }
-  return { card_id: c.id, question: c.front, answer: c.back, why: c.why ?? '', topic: topic(c) }
+export function nextCard(progress: Progress, recent: string[], deck?: string, mode = 'mix', now = Date.now()) {
+  const avoid = new Set(recent.slice(-TALK_RETRY_GAP))
+  const pool = ALL.filter(c => (!deck || deck === 'any' || c.deckId === deck) && !avoid.has(c.id))
+  const due = pool.filter(c => progress[c.id] && progress[c.id].due <= now).sort((a, b) => progress[a.id].due - progress[b.id].due)
+  const fresh = pool.filter(c => !progress[c.id])
+  const weakest = pool
+    .filter(c => progress[c.id])
+    .sort((a, b) => progress[a.id].box - progress[b.id].box || progress[b.id].missed - progress[a.id].missed)
+  const order = mode === 'new' ? [fresh]
+    : mode === 'review' ? [due, weakest]
+    : recent.length % 2 ? [fresh, due, weakest] : [due, fresh, weakest]
+  const c = order.map(list => list[0]).find(Boolean)
+  if (!c) return { error: mode === 'new' ? 'No new questions left in this test' : 'No questions left' }
+  return { card_id: c.id, question: c.front, answer: c.back, why: c.why ?? '', topic: topic(c), had_before: !!progress[c.id] }
 }
 
 export function recordAnswer(progress: Progress, args: { card_id?: string; correct?: boolean; heard?: string; note?: string }) {

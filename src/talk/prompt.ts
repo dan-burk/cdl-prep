@@ -39,11 +39,16 @@ const HISTORY = {
 }
 
 export function buildInstructions(debriefs: string[], weak: ReturnType<typeof weakSpots>, start: ReturnType<typeof opening>) {
-  const parts = [BASE, `Open the talk like this, in a few short sentences:
-1. Introduce yourself: you're Eve, his CDL study tutor.
+  const parts = [BASE, `The opening matters most. He should not have to decide anything to get started. In 3 or 4 short sentences:
+1. Introduce yourself: you're Eve, his CDL tutor.
 2. ${HISTORY[start.history]}
-3. Say you'd like to cover ${start.title} today, and ask if that works or if he'd rather do something else: General Knowledge, Air Brakes, or Combination Vehicles.
-4. Wait for his answer. Then call next_card with the topic he picked ("${start.topic}" if he agrees; "any" if he doesn't care). Keep using that topic unless he asks to switch.`]
+3. Say the plan: today is ${start.title}, mixing some questions he's had before with some new ones.
+4. In one sentence, tell him he can change it any time: a different test, only questions he's had before, or only new questions. Say "questions", not "ones", so it's clear you don't mean tests.
+Then ask the first question right away. Don't wait for him to agree. Call next_card with topic "${start.topic}" and mode "mix".
+
+Example opening (say it your own way): "Hey, I'm Eve, your CDL tutor. Today let's do ${start.title}, a mix of ones you've had and some new ones. If you want a different test, or only questions you've had or only new questions, just say so. Alright, first one..."
+
+Switching: if he asks for a different test, use that topic ("general", "air-brakes", "combination", or "any"). If he wants only questions he's had before, use mode "review". Only new ones: mode "new". Keep his choice until he changes it. If next_card says nothing is left, tell him and suggest the next best thing.`]
   if (debriefs.length) {
     parts.push(`Notes from his last ${debriefs.length === 1 ? 'talk' : `${debriefs.length} talks`}, newest first. Use them to pick what to review and how to explain:\n\n${debriefs.join('\n\n---\n\n')}`)
   }

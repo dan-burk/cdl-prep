@@ -31,10 +31,13 @@ export function RadioGroup<T extends string | number>({ label, options, value, o
   )
 }
 
-export function ProgressBar({ value, max, label }: { value: number; max: number; label: string }) {
+/** `behind` draws a lighter second fill under the main one (covered under learned) */
+export function ProgressBar({ value, max, label, behind }: { value: number; max: number; label: string; behind?: number }) {
+  const pct = (n: number) => `${max ? (n / max) * 100 : 0}%`
   return (
-    <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={max} aria-valuenow={value} className="h-2.5 overflow-hidden rounded-full bg-surface-2">
-      <div className="h-full rounded-full bg-accent transition-[width] motion-reduce:transition-none" style={{ width: `${max ? (value / max) * 100 : 0}%` }} />
+    <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={max} aria-valuenow={value} className="relative h-2.5 overflow-hidden rounded-full bg-surface-2">
+      {behind !== undefined && <div className="absolute inset-y-0 left-0 rounded-full bg-accent/25 transition-[width] motion-reduce:transition-none" style={{ width: pct(behind) }} />}
+      <div className="relative h-full rounded-full bg-accent transition-[width] motion-reduce:transition-none" style={{ width: pct(value) }} />
     </div>
   )
 }

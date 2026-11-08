@@ -15,11 +15,13 @@ const fresh = (): CardState => ({ box: 0, due: 0, seen: 0, missed: 0 })
 
 export function grade(progress: Progress, id: string, gotIt: boolean, now = Date.now()): Progress {
   const s = progress[id] ?? fresh()
-  const box = gotIt ? Math.min(s.box + 1, TOP_BOX) : 0
+  // Right answers only count when the card was due: three right in one sitting isn't learning it
+  const early = gotIt && s.due > now
+  const box = early ? s.box : gotIt ? Math.min(s.box + 1, TOP_BOX) : 0
   return {
     ...progress,
     // Spread first so talk-mode notes survive a flashcard answer
-    [id]: { ...s, box, due: now + WAIT_DAYS[box] * DAY, seen: s.seen + 1, missed: s.missed + (gotIt ? 0 : 1) },
+    [id]: { ...s, box, due: early ? s.due : now + WAIT_DAYS[box] * DAY, seen: s.seen + 1, missed: s.missed + (gotIt ? 0 : 1) },
   }
 }
 
@@ -33,18 +35,19 @@ export function buildSession(cards: Card[], progress: Progress, now = Date.now()
 }
 
 export function deckStats(cards: Card[], progress: Progress, now = Date.now()) {
-  let learned = 0, due = 0, unseen = 0
+  let learned = 0, due = 0, unseen = 0, covered = 0
   for (const c of cards) {
     const s = progress[c.id]
     if (!s) unseen++
     else {
+      covered++
       if (s.box >= LEARNED_BOX) learned++
       if (s.due <= now) due++
     }
   }
   // When nothing is due yet, the earliest card to come back
   const next = Math.min(...cards.map(c => progress[c.id]?.due ?? Infinity))
-  return { total: cards.length, learned, due, unseen, next }
+  return { total: cards.length, covered, learned, due, unseen, next }
 }
 
 /** Combine two copies of progress (this device and the account), keeping whichever has seen each card more */

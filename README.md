@@ -12,6 +12,15 @@ Read-aloud flashcards for the South Dakota Class A CDL permit tests: General Kno
 - `CDL-PLAN.md`: the plan and to-do list.
 - `sources/`: local copies of the manual and transcripts. Not committed, because they're copyrighted.
 
+## Progress terms
+
+| Term | Means |
+|---|---|
+| Covered | Asked at least once |
+| Learned | Right 3 times in a row, spaced out (comes back after 1 day, then 3). A miss resets it. Right answers before a question is due don't count. |
+
+Talk mode mixes questions he's had before with new ones by default. He can ask for one test, only ones he's had (review), or only new ones.
+
 ## Talk mode limits
 
 | Rule | Value |

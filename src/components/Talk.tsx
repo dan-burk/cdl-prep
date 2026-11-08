@@ -76,7 +76,7 @@ export function Talk({ uid, progress, onProgress }: Props) {
       onClose: unexpected => finish(unexpected ? "Couldn't connect. Try again." : ''),
       onTool: (name, args) => {
         if (name === 'next_card') {
-          const card = nextCard(progressRef.current, recent, typeof args.topic === 'string' ? args.topic : undefined)
+          const card = nextCard(progressRef.current, recent, typeof args.topic === 'string' ? args.topic : undefined, typeof args.mode === 'string' ? args.mode : undefined)
           if (card.card_id) recent.push(card.card_id)
           return card
         }

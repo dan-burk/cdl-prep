@@ -29,11 +29,11 @@ export function Home({ progress, onStudy, onTalk }: { progress: Progress; onStud
               <h2 className="text-xl font-bold">{deck.title}</h2>
               <p className="text-muted">{deck.test}</p>
               <div className="mt-4">
-                <ProgressBar value={s.learned} max={s.total} label={`${deck.title} questions covered`} />
-                {/* Two numbers at most: more than that turns into a blur */}
+                <ProgressBar value={s.learned} behind={s.covered} max={s.total} label={`${deck.title}: ${s.learned} learned, ${s.covered} covered`} />
+                {/* Covered = asked at least once; learned = right 3 times, spaced out (srs.ts) */}
                 <div className="mt-2 flex flex-wrap justify-between gap-x-4 text-muted">
-                  <span><b className="text-text">{s.learned}</b> of {s.total} questions covered</span>
-                  <span>{todo > 0 ? <><b className="text-text">{todo}</b> to study</> : <>Next review {whenNext(s.next)}</>}</span>
+                  <span><b className="text-text">{s.covered}</b> of {s.total} covered</span>
+                  <span>{s.learned > 0 || todo > 0 ? <><b className="text-text">{s.learned}</b> learned</> : <>Next review {whenNext(s.next)}</>}</span>
                 </div>
               </div>
               <button onClick={() => onStudy(deck.id)} className="btn-outline mt-5 h-11 px-6">
