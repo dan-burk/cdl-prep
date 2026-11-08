@@ -37,6 +37,8 @@ export function Talk({ uid, progress, onProgress }: Props) {
   const progressRef = useRef(progress)
   progressRef.current = progress
   const stopRef = useRef<() => void>()
+  // True when the browser is holding the tutor's audio until a tap (autoplay rules)
+  const [muted, setMuted] = useState(false)
 
   const start = useCallback(async () => {
     setPhase('connecting')
@@ -59,8 +61,16 @@ export function Talk({ uid, progress, onProgress }: Props) {
     document.addEventListener('visibilitychange', onVisible)
 
     const player = new Player(ctx, playing => !ended && setPhase(playing ? 'speaking' : 'listening'))
+    const checkSound = () => setMuted(!ended && ctx.state !== 'running')
+    ctx.addEventListener('statechange', checkSound)
     const tutor = new VoiceTutor({
-      onAudio: b64 => player.push(b64),
+      onAudio: b64 => {
+        if (ctx.state !== 'running') {
+          ctx.resume().catch(() => {})
+          checkSound()
+        }
+        player.push(b64)
+      },
       onBargeIn: () => player.flush(),
       onLine: line => transcript.push(line),
       onClose: unexpected => finish(unexpected ? "Couldn't connect. Try again." : ''),
@@ -94,6 +104,8 @@ export function Talk({ uid, progress, onProgress }: Props) {
       clearInterval(timer)
       clearInterval(saver)
       document.removeEventListener('visibilitychange', onVisible)
+      ctx.removeEventListener('statechange', checkSound)
+      setMuted(false)
       wake?.release().catch(() => {})
       stopMic?.()
       player.flush()
@@ -165,6 +177,10 @@ export function Talk({ uid, progress, onProgress }: Props) {
       )}
 
       {live && <p className="tabular-nums text-muted" aria-label="Time left">{clock(left)}</p>}
+
+      {live && muted && (
+        <button onClick={() => unlockAudio()} className="btn-outline h-11 px-6">Tap to hear</button>
+      )}
 
       {live || phase === 'connecting' ? (
         <button onClick={() => stopRef.current?.()} className="btn h-14 w-full max-w-xs bg-accent text-lg text-accent-fg hover:bg-accent/90">Stop</button>
