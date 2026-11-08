@@ -22,11 +22,9 @@ interface Props {
   speak: (text: string) => void
   onReset: () => void
   onClose: () => void
-  /** Missing when Firebase isn't configured (local dev without .env.local) */
-  account?: { email: string | null; onSignIn: () => void; onSignOut: () => void }
 }
 
-export function SettingsPanel({ settings, onChange, voices, speak, onReset, onClose, account }: Props) {
+export function SettingsPanel({ settings, onChange, voices, speak, onReset, onClose }: Props) {
   const [confirmReset, setConfirmReset] = useState(false)
   const dialog = useRef<HTMLDivElement>(null)
   // Move focus into the dialog once, on open, so keyboard and screen reader users land in it
@@ -82,19 +80,6 @@ export function SettingsPanel({ settings, onChange, voices, speak, onReset, onCl
             </>
           ) : (
             <p className="rounded-lg bg-bad-soft p-3 text-bad">No read-aloud here. Use Chrome, Edge or Safari.</p>
-          )}
-
-          {account && (
-            <Row label="Account">
-              {account.email ? (
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <span className="min-w-0 truncate">{account.email}</span>
-                  <button onClick={account.onSignOut} className="btn min-h-11 bg-surface-2 hover:bg-border">Sign out</button>
-                </div>
-              ) : (
-                <button onClick={account.onSignIn} className="btn min-h-11 bg-accent text-accent-fg hover:bg-accent/90">Sign in with Google</button>
-              )}
-            </Row>
           )}
 
           <Row label="Progress">

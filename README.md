@@ -19,3 +19,42 @@ npm run build   # type check + production build
 ```
 
 Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`.
+
+## Firebase Commands
+
+```bash
+# Authentication
+firebase logout
+firebase login --reauth
+
+# Project management
+firebase projects:list
+firebase init
+
+# Secrets management (v2)
+firebase functions:secrets:set <YOUR_SECRET>
+firebase functions:secrets:access <YOUR_SECRET>
+firebase functions:secrets:get <YOUR_SECRET>
+firebase functions:secrets:destroy <YOUR_SECRET>
+
+# View function config
+firebase functions:config:get
+
+# View function logs
+firebase functions:log
+```
+
+## GCP Commands
+
+```bash
+# Authentication
+gcloud auth login
+gcloud auth application-default login
+
+# Secrets
+gcloud secrets list #Shows secrets for the default project
+gcloud secrets list --project cdl-prep-9fc49
+
+# Inspect a deployed function
+gcloud functions describe <your-function> --region=us-central1
+```

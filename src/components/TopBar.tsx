@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
+import { type Account, AuthButton } from './Auth'
 import { IconButton } from './ui'
 
-export function TopBar({ title, onBack, onSettings }: { title: ReactNode; onBack?: () => void; onSettings: () => void }) {
+export function TopBar({ title, onBack, onSettings, account }: { title: ReactNode; onBack?: () => void; onSettings: () => void; account?: Account }) {
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-surface/90 backdrop-blur">
       {/* Same width and gutter as the page below; icon buttons pull out by their padding so the icons line up with the content edge */}
@@ -13,6 +14,7 @@ export function TopBar({ title, onBack, onSettings }: { title: ReactNode; onBack
         )}
         {!onBack && <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" className="mr-2 h-7 w-auto" />}
         <div className="min-w-0 flex-1 truncate text-lg font-semibold">{title}</div>
+        {account && <AuthButton account={account} />}
         <IconButton label="Settings" onClick={onSettings} className="-mr-2.5">
           <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <circle cx="12" cy="12" r="3" />

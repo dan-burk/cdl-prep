@@ -1,5 +1,6 @@
 import type { User } from 'firebase/auth'
 import { useCallback, useEffect, useState } from 'react'
+import { LoginModal } from './components/Auth'
 import { Home } from './components/Home'
 import { SettingsPanel } from './components/SettingsPanel'
 import { Study } from './components/Study'
@@ -19,6 +20,8 @@ export default function App() {
   const [settings, setSettings] = useState<Settings>(() => load('cdl.settings', DEFAULT_SETTINGS))
   const [progress, setProgress] = useState<Progress>(() => load('cdl.progress', {}))
   const [user, setUser] = useState<User | null>(null)
+  const [showLogin, setShowLogin] = useState(false)
+  const [loginError, setLoginError] = useState<string | null>(null)
   // The uid whose account copy has been merged in; saving waits for it so a stale device copy can't overwrite the account
   const [syncedUid, setSyncedUid] = useState<string | null>(null)
   const voices = useVoices()
@@ -56,9 +59,27 @@ export default function App() {
   }
   const deck = deckId && deckById(deckId)
 
+  const login = async () => {
+    setLoginError(null)
+    try {
+      await signIn()
+      setShowLogin(false)
+    } catch (err) {
+      // Closing the Google popup isn't an error worth showing
+      if ((err as { code?: string }).code !== 'auth/popup-closed-by-user') setLoginError("Couldn't sign in. Try again.")
+    }
+  }
+  const account = firebaseReady
+    ? {
+        user: user && { name: user.displayName || user.email || 'Account', photoURL: user.photoURL },
+        onLogin: () => { setLoginError(null); setShowLogin(true) },
+        onLogout: () => { signOutUser() },
+      }
+    : undefined
+
   return (
     <div className="flex min-h-[100dvh] flex-col">
-      <TopBar title={deck ? deck.title : 'CDL Prep'} onBack={deck ? exit : undefined} onSettings={() => setShowSettings(true)} />
+      <TopBar title={deck ? deck.title : 'CDL Prep'} onBack={deck ? exit : undefined} onSettings={() => setShowSettings(true)} account={account} />
       {deck
         ? <Study key={deck.id} deck={deck} progress={progress} onProgress={setProgress} settings={settings} speak={speak} onExit={exit} />
         : <Home progress={progress} onStudy={setDeckId} onSpeak={speak} />}
@@ -69,10 +90,10 @@ export default function App() {
           voices={voices}
           speak={speak}
           onReset={() => setProgress({})}
-          account={firebaseReady ? { email: user?.email ?? null, onSignIn: () => { signIn()?.catch(() => {}) }, onSignOut: () => { signOutUser() } } : undefined}
           onClose={() => setShowSettings(false)}
         />
       )}
+      {showLogin && <LoginModal onGoogle={login} onClose={() => setShowLogin(false)} error={loginError} />}
     </div>
   )
 }
